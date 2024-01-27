@@ -1,0 +1,17 @@
+I want to create an app that will enable the user to view and analyse the data stored in a SQLite database. On the frontend, user should first either select the previously uploaded database from the 
+dropdown or upload a new SQLite database by selecting the file from the disk that they want to load. If they choose a new database file from the disk, they should be able to name this database and the 
+database file should be sent to the backend and stored for later so that the user doesn’t have to upload the database every time they want to analyse it. Once the database is uploaded, the user should be 
+able to interact with it. Specifically, user should be able to see all apps from the database. Once they choose an app, they should see all development tasks of that app and be able to select one. Once 
+they select development task, they should see all development steps within the selected development task. Finally, once they select the development step, they should see all the step data from the 
+database. 
+The SQLite database will always be structured like this:
+Table “app” contains all apps stored in the database. Every app has multiple development tasks that are stored as an array in the table “development_planning” under the key “development_plan”. Each array 
+item is a JSON object that has 3 key-value pairs: “description”, “user_review_goal” and “programming_goal”. Finally, each development task contains many development steps that are stored in the table 
+“development_steps” and are linked to the app table by the key “app_id”. The problem is that there is no connection between the development task and development step so what needs to be done is take all 
+development steps from the database and split the list of steps by the field “prompt_path”. Every development task begins with the prompt path with the value “development/task/breakdown.prompt” so you 
+can connect development steps to development tasks by splitting development steps list in multiple smaller lists in which every smaller list begins with the step that has “prompt_path” equal to 
+“development/task/breakdown.prompt”. That way, you will get development steps for each development task. Finally, each development step contains the following values that need to be shown on the frontend 
+to the user: “prompt_path” which is a string, “messages” which is an array of JSON objects, “llm_response” which is a JSON object and “prompt_data” which is JSON object. “messages” array will always 
+contain JSON objects with keys “content” and “role” so the user should see on the frontend a big text field for the value of “content” and a label for the value “role”. “llm_response” will always have a 
+key “text” that should be shown on the frontend as a text area - it will contain a large string. “prompt_data” can have different keys and each key-value pair should be shown to the user.
+
